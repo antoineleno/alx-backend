@@ -5,7 +5,9 @@ from base_caching import BaseCaching
 
 
 class BasicCache(BaseCaching):
-    """BasicCache Class that allow to store and get an item"""
+    """BasicCache Class that allow to store and get an item
+    from a cache memory
+    """
     def put(self, key, item):
         """Add an iems to the cache"""
         if key is None or item is None:
