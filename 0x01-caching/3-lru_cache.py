@@ -28,4 +28,5 @@ class LRUCache(BaseCaching):
     def get(self, key):
         """Retrieves an item by key.
         """
+        self.cache_data.move_to_end(key)
         return self.cache_data.get(key, None)
