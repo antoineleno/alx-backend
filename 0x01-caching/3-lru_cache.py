@@ -21,12 +21,11 @@ class LRUCache(BaseCaching):
         self.cache_data[key] = item
         self.cache_data.move_to_end(key)
 
-        if len(self.cache_data) > self.MAX_ITEMS:
+        if len(self.cache_data) + 1> self.MAX_ITEMS:
             first_value, _ = self.cache_data.popitem(last=False)
             print("DISCARD: {}".format(first_value))
 
     def get(self, key):
         """Retrieves an item by key.
         """
-        self.cache_data.move_to_end(key)
         return self.cache_data.get(key, None)
