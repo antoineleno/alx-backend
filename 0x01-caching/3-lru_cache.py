@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""LRU caching module.
+"""Least Recently Used caching module.
 """
-from base_caching import BaseCaching
 from collections import OrderedDict
+
+from base_caching import BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """LRUCache that inherits from BaseCaching
-    and is a caching system for last in and First out
+    """LRU Cache
     """
     def __init__(self):
+        """Initializes the cache.
+        """
         super().__init__()
         self.cache_data = OrderedDict()
 
@@ -18,14 +20,18 @@ class LRUCache(BaseCaching):
         """
         if key is None or item is None:
             return
-        self.cache_data[key] = item
-        self.cache_data.move_to_end(key)
-
-        if len(self.cache_data) + 1> self.MAX_ITEMS:
-            first_value, _ = self.cache_data.popitem(last=False)
-            print("DISCARD: {}".format(first_value))
+        if key not in self.cache_data:
+            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
+                lru_key, _ = self.cache_data.popitem(True)
+                print("DISCARD:", lru_key)
+            self.cache_data[key] = item
+            self.cache_data.move_to_end(key, last=False)
+        else:
+            self.cache_data[key] = item
 
     def get(self, key):
         """Retrieves an item by key.
         """
+        if key is not None and key in self.cache_data:
+            self.cache_data.move_to_end(key, last=False)
         return self.cache_data.get(key, None)
